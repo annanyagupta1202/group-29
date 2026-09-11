@@ -46,4 +46,8 @@ These questions aren't here to slow you down — they're part of what's being ev
 
 ## Our Approach
 
-*[To be filled in by the team at the end.]*
+LUMEN Germany Market Entry Decision Cockpit turns the twelve supplied case exhibits into one deterministic, presentation-ready recommendation. Leaders select only a strategic objective, risk appetite and scenario; the cockpit then compares the three tested prices, channel-specific contribution economics, German survey evidence, historical marketing proxies, competitor benchmarks and seasonal timing. It shows the CMO/CFO trade-off explicitly rather than hiding it in one opaque score, and labels every result as observed data, derived calculation, assumption or forecast.
+
+The prototype is deliberately a data-driven estimate, not a claim of German sales history or a real-time market prediction. Germany has no LUMEN sales data, so NL/DK/SE history informs quality checks and methodology only. Scenario ranges expose uncertainty, and all primary price recommendations remain within the three tested candidate prices.
+
+The application bundles only PII-safe aggregates: no respondent names, emails or respondent IDs are rendered or included in frontend assets. No external APIs or API keys are used. The supplied survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.
