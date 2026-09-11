@@ -26,7 +26,7 @@ Why we're doing this: it's not to monitor you. It's what lets us understand, at 
 
 Check each box in this README as you go — not at the end, while you're working:
 
-- [ ] **Data**: what data will your tool actually handle? Is any of it sensitive (personal data, company customer data)? `data/customer_survey.csv` has name/email columns — did you use them in your tool? If yes, how did you protect/anonymize them? If no, why did you choose not to expose them? (A team that never touches these columns should still be able to answer — "we chose not to use them" is a valid answer.)
+- [x] **Data**: the repository now keeps `data/customer_survey_anonymized.csv` instead of the original respondent file. We removed names, emails and source respondent IDs, and replaced them with non-identifying synthetic survey-response IDs before tracking the file. The cockpit uses only PII-safe aggregates, so individual survey records are neither bundled nor rendered.
 - [ ] **API keys**: if your tool calls an external API (weather, or anything else), where is the key stored? Never hardcoded in a file committed to GitHub. (A valid answer: "we didn't use any external API.")
 - [ ] **Deployment**: if you deployed a live demo, does any endpoint or response return raw, unfiltered data (e.g. the full survey with name/email) to any visitor?
 - [ ] **Files generated along the way**: if your tool (or Codex) created new files derived from the provided data, did you think about whether they should be committed to the repo or not?
@@ -50,4 +50,4 @@ LUMEN Germany Market Entry Decision Cockpit turns the twelve supplied case exhib
 
 The prototype is deliberately a data-driven estimate, not a claim of German sales history or a real-time market prediction. Germany has no LUMEN sales data, so NL/DK/SE history informs quality checks and methodology only. Scenario ranges expose uncertainty, and all primary price recommendations remain within the three tested candidate prices.
 
-The application bundles only PII-safe aggregates: no respondent names, emails or respondent IDs are rendered or included in frontend assets. No external APIs or API keys are used. The supplied survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.
+The application bundles only PII-safe aggregates: no respondent names, emails or source respondent IDs are rendered or included in frontend assets. No external APIs or API keys are used. The anonymized survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.
