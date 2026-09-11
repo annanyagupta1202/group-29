@@ -1,0 +1,11 @@
+.price-scale{height:76px;margin:14px 4px 8px;padding-bottom:2px;align-items:flex-start}
+.price-scale span{padding:0 4px;text-align:center;line-height:1.15}
+.price-scale span:after{bottom:auto;top:0;height:23px;background:#779486}
+.price-scale span small{margin-top:4px}
+.price-scale strong{bottom:1px;display:flex;flex-direction:column;align-items:center;gap:2px;z-index:2;line-height:1.1;white-space:nowrap}
+.price-scale strong:before{content:'';position:absolute;bottom:0;left:50%;height:22px;border-left:2px solid #398054;transform:translateX(-50%)}
+.price-scale strong i{display:block;width:9px;height:9px;border-radius:50%;background:#398054;border:2px solid #f5f3ec;box-shadow:0 0 0 2px #398054;transform:translateY(-1px)}
+.price-scale strong small{margin-top:0}
+.price-scale strong.near-threshold{bottom:-22px}
+.price-scale strong.near-threshold:before{height:43px}
+@media(max-width:680px){.price-scale{margin-top:12px}.price-scale span{font-size:9px}.price-scale strong{font-size:11px}}
