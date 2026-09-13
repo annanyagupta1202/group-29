@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { challengeRecommendation, recommend, priceDiagnostics } from './engine';
+import { challengeRecommendation, recommend, priceDiagnostics, validateControls, validateGuardrail } from './engine';
 import { channels, competitorPromoRisk, priceTests, segments, validateData } from './data';
 const base={objective:'Balanced Growth' as const,risk:'Balanced' as const,scenario:'Base' as const};
 describe('deterministic recommendation engine',()=>{
+ it('rejects malformed controls and invalid guardrail thresholds with controlled errors',()=>{expect(()=>validateControls({} as never)).toThrow('Invalid controls');expect(()=>validateGuardrail({minRatio:NaN,maxPayback:80})).toThrow('Invalid economics guardrail thresholds');expect(()=>validateGuardrail({minRatio:1.5,maxPayback:Infinity})).toThrow('Invalid economics guardrail thresholds');});
  it('validates the PII-safe aggregate source layer and candidate price coverage',()=>{expect(validateData()).toBe(true);expect(priceTests).toHaveLength(9);expect(new Set(priceTests.map(x=>x.price))).toEqual(new Set([1.79,2.19,2.59]));expect(segments.every(x=>!('email' in x))).toBe(true);expect(channels.every(x=>x.cac>0&&x.ltv>0)).toBe(true);});
+ it('rejects non-finite source data before calculating',()=>{const row=priceTests[0],acceptance=row.acceptance;row.acceptance=Number.NaN;try{expect(()=>recommend(base)).toThrow('Data validation failed: price data contains non-finite values');}finally{row.acceptance=acceptance;}});
  it('returns identical recommendation for identical controls',()=>expect(recommend(base)).toEqual(recommend(base)));
  it('only recommends a tested price and valid economics',()=>{const r=recommend(base);expect([1.79,2.19,2.59]).toContain(r.price);expect(r.mix.reduce((x,m)=>x+m.share,0)).toBeCloseTo(1);expect(r.ratio).toBeGreaterThan(0);expect(r.paybackUnits).toBeGreaterThan(0);});
  it('keeps transparent CMO/CFO scores in a readable 0–100 range',()=>{const r=recommend(base);expect(r.cmo).toBeGreaterThanOrEqual(0);expect(r.cmo).toBeLessThanOrEqual(100);expect(r.cfo).toBeGreaterThanOrEqual(0);expect(r.cfo).toBeLessThanOrEqual(100);});

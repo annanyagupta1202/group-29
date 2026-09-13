@@ -29,4 +29,17 @@ export const seasonality = [{m:'Jan',v:78},{m:'Feb',v:80},{m:'Mar',v:88},{m:'Apr
 export const weatherByMonth = [2,3,6,10,15,18,20,19,15,10,5,3];
 export const competitorPromoRisk: Record<string,number> = {Jan:0,Feb:0,Mar:0,Apr:0,May:0,Jun:.28,Jul:.2,Aug:0,Sep:0,Oct:0,Nov:0,Dec:0};
 export const quality = { duplicateSalesRows:4, anomaly:'Netherlands Retail/Grocery has an unusual May–June 2026 volume spike; excluded from German demand calibration.', historicalMarkets:'NL/DK/SE only — never German sales.', cogs:.62, overallVw:[.93,1.43,2.21,2.81] };
-export function validateData(){ if(priceTests.length!==9 || segments.some(s=>!s.n || s.vw.length!==4) || cities.length<5 || channels.length!==3) throw new Error('Data validation failed: incomplete aggregate.'); return true; }
+export function validateData(){
+ const fail=(message:string):never=>{throw new Error(`Data validation failed: ${message}.`);};
+ if(priceTests.length!==9)fail('expected 9 price/channel rows');
+ const requiredChannels=['DTC Online','Retail/Grocery','Gym & Office'];
+ for(const price of [1.79,2.19,2.59])for(const channel of requiredChannels){const row=priceTests.find(x=>x.price===price&&x.channel===channel);if(!row)fail(`missing ${channel} row for €${price.toFixed(2)}`);}
+ const numeric=(value:number)=>Number.isFinite(value);
+ if(priceTests.some(x=>[x.price,x.acceptance,x.net,x.contribution,x.margin].some(v=>!numeric(v))))fail('price data contains non-finite values');
+ if(priceTests.some(x=>x.price<=0||x.acceptance<0||x.acceptance>100||x.contribution<=0||x.margin<0))fail('price data contains invalid ranges');
+ if(segments.some(s=>!s.n||s.vw.length!==4||[s.n,s.frequency,s.spend,s.sensitivity,s.intent,...s.vw,...Object.values(s.channel)].some(v=>!numeric(v))))fail('segment data contains invalid values');
+ if(cities.length<5||cities.some(s=>[s.n,s.intent,s.frequency,s.spend,s.marketShare,s.cagr].some(v=>!numeric(v))))fail('city data contains invalid values');
+ if(channels.length!==3||channels.some(s=>!s.name||[s.preference,s.cac,s.ltv].some(v=>!numeric(v))||s.cac<=0||s.ltv<=0))fail('channel economics are incomplete or invalid');
+ if(seasonality.length!==12||seasonality.some(s=>!numeric(s.v))||weatherByMonth.length!==12||weatherByMonth.some(v=>!numeric(v)))fail('seasonality or weather data is invalid');
+ return true;
+}
