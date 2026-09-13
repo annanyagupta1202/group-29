@@ -31,7 +31,7 @@ Check each box in this README as you go — not at the end, while you're working
 - [ ] **Deployment — not yet completed**: the code and local production bundle use PII-safe data, but the live Vercel deployment still needs an authenticated network-response check before this can be marked complete.
 - [x] **Files generated along the way**: derived files are intentional and documented. The anonymized survey is tracked because it is part of the data room; compiled build output is generated locally and is not treated as source data.
 - [x] **Storage**: source exhibits remain as CSV files for auditability and reuse, while the frontend loads only the small aggregate values it needs into memory. This keeps the prototype simple, reviewable, and free of a backend data store.
-- [ ] **Robustness**: what happens if the user gives an empty, inconsistent, or unexpected input?
+- [x] **Robustness**: empty, inconsistent, or unexpected input is handled through the error boundary and recoverable reset actions; the behavior is covered by the UI recovery tests, including **Reset configuration**.
 - [x] **Explainability**: the cockpit labels observed evidence, assumptions, derived calculations, and forecasts, then explains the recommendation through CMO/CFO trade-offs, scenario ranges, stress tests, and an executive memo.
 - [x] **Business relevance**: the prototype directly supports the German entry decision by recommending a tested price, target segment, channel mix, launch timing, and economic trade-offs rather than presenting a generic technical dashboard.
 
