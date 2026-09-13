@@ -50,6 +50,8 @@ LUMEN Germany Market Entry Decision Cockpit turns the twelve supplied case exhib
 
 The prototype is deliberately a data-driven estimate, not a claim of German sales history or a real-time market prediction. Germany has no LUMEN sales data, so NL/DK/SE history informs quality checks and methodology only. Scenario ranges expose uncertainty, and all primary price recommendations remain within the three tested candidate prices.
 
+The case brief's approximately 3:1 LTV:CAC figure is the planning target for a healthy launch outcome. The cockpit's 1.5x LTV:CAC guardrail is only the minimum economic viability threshold: it prevents an option from being treated as viable below that floor, but it is not the target outcome or a claim that 1.5x is sufficient for the full business plan.
+
 The application bundles only PII-safe aggregates: no respondent names, email addresses, contact information, or respondent-level records are rendered or included in frontend assets. The price-sensitivity source retains only a non-identifying `respondent_id` to keep each respondent’s four threshold answers grouped together. No external APIs or API keys are used. The anonymized survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.
 
 ### Checklist rationale in business language
