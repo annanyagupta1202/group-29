@@ -26,7 +26,7 @@ Why we're doing this: it's not to monitor you. It's what lets us understand, at 
 
 Check each box in this README as you go — not at the end, while you're working:
 
-- [x] **Data**: the repository now keeps `data/customer_survey_anonymized.csv` instead of the original respondent file. We removed names, emails and source respondent IDs, and replaced them with non-identifying synthetic survey-response IDs before tracking the file. The cockpit uses only PII-safe aggregates, so individual survey records are neither bundled nor rendered.
+- [x] **Data**: names, email addresses, and other direct contact information were removed from the survey data. `data/price_sensitivity_survey.csv` retains a non-identifying `respondent_id` solely to group each respondent’s four Van Westendorp price-threshold answers together; it is not a name, email, or contact field. The cockpit uses only PII-safe aggregates, so individual survey records are neither bundled nor rendered.
 - [x] **API keys — not applicable: no external API used**: weather and seasonality come from the committed exhibit data, so there are no API calls, credentials, or keys to store.
 - [ ] **Deployment — not yet completed**: the code and local production bundle use PII-safe data, but the live Vercel deployment still needs an authenticated network-response check before this can be marked complete.
 - [x] **Files generated along the way**: derived files are intentional and documented. The anonymized survey is tracked because it is part of the data room; compiled build output is generated locally and is not treated as source data.
@@ -50,7 +50,7 @@ LUMEN Germany Market Entry Decision Cockpit turns the twelve supplied case exhib
 
 The prototype is deliberately a data-driven estimate, not a claim of German sales history or a real-time market prediction. Germany has no LUMEN sales data, so NL/DK/SE history informs quality checks and methodology only. Scenario ranges expose uncertainty, and all primary price recommendations remain within the three tested candidate prices.
 
-The application bundles only PII-safe aggregates: no respondent names, emails or source respondent IDs are rendered or included in frontend assets. No external APIs or API keys are used. The anonymized survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.
+The application bundles only PII-safe aggregates: no respondent names, email addresses, contact information, or respondent-level records are rendered or included in frontend assets. The price-sensitivity source retains only a non-identifying `respondent_id` to keep each respondent’s four threshold answers grouped together. No external APIs or API keys are used. The anonymized survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.
 
 ### Checklist rationale in business language
 
@@ -58,6 +58,6 @@ We deliberately did not add a live weather or other external API. The case alrea
 
 The data is stored as committed CSV exhibits because that makes the analysis auditable: a reviewer can trace the recommendation back to the supplied case material. The browser receives only the aggregate segment, city, channel, price, and timing values needed to make the decision; it does not need a database or a respondent-level service.
 
-The anonymized survey is a deliberate derived file and is tracked as part of the data room. It removes direct identifiers before the file is used, while the application itself consumes only safe aggregates. Build artifacts are disposable outputs, not business data, and are regenerated during deployment.
+The anonymized survey is a deliberate derived file and is tracked as part of the data room. Names, email addresses, and contact information are removed before the file is used. The price-sensitivity file retains a non-identifying `respondent_id` only so its four Van Westendorp answers stay grouped; it is not contact data and is not bundled into the app. The application itself consumes only safe aggregates. Build artifacts are disposable outputs, not business data, and are regenerated during deployment.
 
 The tool is designed to help a market-entry team make a specific decision. It shows what price and channel plan to launch, who to target, when to enter, how the economics perform, and where the CMO’s premium-positioning preference conflicts with the CFO’s return requirements. Labels, evidence notes, scenarios, and stress tests make those trade-offs understandable to a non-technical decision-maker.
