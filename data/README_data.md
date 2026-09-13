@@ -48,7 +48,7 @@ for a number that isn't there.
   pulling in a real, live public data source (e.g. current German weather via
   a public API) and correlating it with the seasonality data here. Not
   required, but it's there if your team wants to push further.
-- **Survey privacy**: the original name/email-style fields were removed before
-  `customer_survey_anonymized.csv` was tracked. Its `survey_response_id` is a
-  synthetic identifier only; do not reintroduce source respondent identifiers
-  or direct contact fields into the repository or frontend.
+- **Survey privacy**: names and email-style fields were removed from the survey
+  data. `price_sensitivity_survey.csv` retains a non-identifying `respondent_id`
+  solely to group each respondent's four Van Westendorp price-threshold answers
+  together; it is not a name, email, or contact field.
