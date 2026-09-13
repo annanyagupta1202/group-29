@@ -5,6 +5,7 @@ import type { Controls, Objective, Risk, Scenario } from './types';
 
 const money=(n:number)=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
 const pct=(n:number)=>`${n.toFixed(1)}%`;
+export const DEFAULT_CONTROLS:Controls={objective:'Balanced Growth',risk:'Balanced',scenario:'Base'};
 
 function Tag({children,type='derived'}:{children:React.ReactNode;type?:string}){return <span className={`tag ${type}`}>{children}</span>}
 
@@ -22,7 +23,7 @@ function stressExplanation(x:ReturnType<typeof challengeRecommendation>['cases']
 }
 
 export default function App(){
- const [controls,setControls]=useState<Controls>({objective:'Balanced Growth',risk:'Balanced',scenario:'Base'});
+ const [controls,setControls]=useState<Controls>(DEFAULT_CONTROLS);
  const r=useMemo(()=>recommend(controls),[controls]);
  const challenge=useMemo(()=>challengeRecommendation(controls),[controls]);
  const update=<K extends keyof Controls>(key:K,value:Controls[K])=>setControls(c=>({...c,[key]:value}));
