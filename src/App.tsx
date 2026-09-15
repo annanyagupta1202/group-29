@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react';
 import { competitors, quality, quotes, seasonality } from './data';
 import { challengeRecommendation, recommend } from './engine';
-import type { Controls, Objective, Risk, Scenario } from './types';
+import type { Controls, Objective, Recommendation, Risk, Scenario } from './types';
 
 const money=(n:number)=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
 const pct=(n:number)=>`${n.toFixed(1)}%`;
 export const DEFAULT_CONTROLS:Controls={objective:'Balanced Growth',risk:'Balanced',scenario:'Base'};
 
 function Tag({children,type='derived'}:{children:React.ReactNode;type?:string}){return <span className={`tag ${type}`}>{children}</span>}
+
+export function GuardrailWarning({recommendation}:{recommendation:Pick<Recommendation,'guardrailMet'|'guardrailWarning'>}){if(recommendation.guardrailMet)return null;return <section className="guardrail-warning" role="alert"><Tag type="assumption">ECONOMICS GUARDRAIL NOT MET</Tag><h2>Best available option, not a validated launch plan</h2><p>{recommendation.guardrailWarning}</p></section>}
 
 function Control<T extends string>({label,value,items,onChange}:{label:string;value:T;items:T[];onChange:(x:T)=>void}){return <div className="control" aria-label={label}><div className="control-heading"><span>{label}</span><small>Choose one</small></div><div className="control-options">{items.map(x=><button type="button" key={x} className={x===value?'active':''} aria-pressed={x===value} onClick={()=>onChange(x)}>{x===value&&<span className="check" aria-hidden="true">✓</span>}{x}</button>)}</div></div>}
 
@@ -40,7 +42,7 @@ export default function App(){
 
  <section className="kpis" aria-label="Selected scenario economics"><div><Tag type="forecast">FORECAST</Tag><b>{pct(r.acceptance)}</b><span>estimated acceptance / eligible prospect</span></div><div><Tag>DERIVED</Tag><b>{money(r.contribution)}</b><span>contribution / 1,000 acquired customers</span></div><div><Tag type="forecast">FORECAST</Tag><b>{money(r.expectedContribution)}</b><span>expected contribution / 1,000 eligible prospects</span></div><div><Tag type="observed">OBSERVED + ASSUMPTION</Tag><b>{money(r.cac)}</b><span>CAC proxy per acquired customer</span></div><div><Tag type="forecast">FORECAST</Tag><b>{r.ratio.toFixed(2)}×</b><span>estimated LTV:CAC</span></div><div><Tag type="forecast">FORECAST</Tag><b>{r.paybackUnits.toFixed(0)}</b><span>units to recover CAC</span></div></section>
 
- {!r.guardrailMet&&<section className="guardrail-warning" role="alert"><Tag type="assumption">ECONOMICS GUARDRAIL NOT MET</Tag><h2>Best available option, not a validated launch plan</h2><p>{r.guardrailWarning}</p></section>}
+ <GuardrailWarning recommendation={r}/>
 
  <section className="callout"><Tag type="assumption">DELIBERATE CHOICE</Tag><h2>{r.sacrifice}</h2><p>The alternative is visible in the CMO/CFO trade-off rather than concealed inside a single score.</p></section>
 
