@@ -1,4 +1,0 @@
-/* Keep the existing Van Westendorp visual treatment; reserve space below the annotation. */
-.price-scale{height:112px;margin-bottom:24px}
-.price-scale strong{bottom:-34px}
-@media(max-width:680px){.price-scale{height:118px;margin-bottom:28px}.price-scale strong{bottom:-38px}}

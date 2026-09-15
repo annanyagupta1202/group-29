@@ -26,14 +26,14 @@ Why we're doing this: it's not to monitor you. It's what lets us understand, at 
 
 Check each box in this README as you go — not at the end, while you're working:
 
-- [x] **Data**: names, email addresses, and other direct contact information were removed from the survey data. `data/price_sensitivity_survey.csv` retains a non-identifying `respondent_id` solely to group each respondent’s four Van Westendorp price-threshold answers together; it is not a name, email, or contact field. The cockpit uses only PII-safe aggregates, so individual survey records are neither bundled nor rendered.
-- [x] **API keys — not applicable: no external API used**: weather and seasonality come from the committed exhibit data, so there are no API calls, credentials, or keys to store.
-- [x] **Deployment**: the public production URL `https://group-29.vercel.app/` returned HTTP 200. Its HTML-referenced JavaScript and CSS assets also returned HTTP 200; scanning those responses found no raw survey identifiers, survey-file names, respondent names, contact information, or email patterns. This verifies the deployed responses and bundle are PII-safe as checked.
-- [x] **Files generated along the way**: derived files are intentional and documented. The anonymized survey is tracked because it is part of the data room; compiled build output is generated locally and is not treated as source data.
-- [x] **Storage**: source exhibits remain as CSV files for auditability and reuse, while the frontend loads only the small aggregate values it needs into memory. This keeps the prototype simple, reviewable, and free of a backend data store.
-- [x] **Robustness**: empty, inconsistent, or unexpected input is handled through the error boundary and recoverable reset actions; the behavior is covered by the UI recovery tests, including **Reset configuration**.
-- [x] **Explainability**: the cockpit labels observed evidence, assumptions, derived calculations, and forecasts, then explains the recommendation through CMO/CFO trade-offs, scenario ranges, stress tests, and an executive memo.
-- [x] **Business relevance**: the prototype directly supports the German entry decision by recommending a tested price, target segment, channel mix, launch timing, and economic trade-offs rather than presenting a generic technical dashboard.
+- [ ] **Data**: what data will your tool actually handle? Is any of it sensitive (personal data, company customer data)? `data/customer_survey.csv` has name/email columns — did you use them in your tool? If yes, how did you protect/anonymize them? If no, why did you choose not to expose them? (A team that never touches these columns should still be able to answer — "we chose not to use them" is a valid answer.)
+- [ ] **API keys**: if your tool calls an external API (weather, or anything else), where is the key stored? Never hardcoded in a file committed to GitHub. (A valid answer: "we didn't use any external API.")
+- [ ] **Deployment**: if you deployed a live demo, does any endpoint or response return raw, unfiltered data (e.g. the full survey with name/email) to any visitor?
+- [ ] **Files generated along the way**: if your tool (or Codex) created new files derived from the provided data, did you think about whether they should be committed to the repo or not?
+- [ ] **Storage**: if you're keeping any data, in what structure, and why that choice over another?
+- [ ] **Robustness**: what happens if the user gives an empty, inconsistent, or unexpected input?
+- [ ] **Explainability**: can you explain to someone non-technical why your tool does what it does?
+- [ ] **Business relevance**: does your prototype actually answer the problem posed in the brief, or is it an interesting technical build that's off-target?
 
 These questions aren't here to slow you down — they're part of what's being evaluated. A thoughtful answer to one of them is worth more than an extra feature nobody asked for.
 
@@ -50,16 +50,4 @@ LUMEN Germany Market Entry Decision Cockpit turns the twelve supplied case exhib
 
 The prototype is deliberately a data-driven estimate, not a claim of German sales history or a real-time market prediction. Germany has no LUMEN sales data, so NL/DK/SE history informs quality checks and methodology only. Scenario ranges expose uncertainty, and all primary price recommendations remain within the three tested candidate prices.
 
-The case brief's approximately 3:1 LTV:CAC figure is the planning target for a healthy launch outcome. The cockpit's 1.5x LTV:CAC guardrail is only the minimum economic viability threshold: it prevents an option from being treated as viable below that floor, but it is not the target outcome or a claim that 1.5x is sufficient for the full business plan.
-
-The application bundles only PII-safe aggregates: no respondent names, email addresses, contact information, or respondent-level records are rendered or included in frontend assets. The price-sensitivity source retains only a non-identifying `respondent_id` to keep each respondent’s four threshold answers grouped together. No external APIs or API keys are used. The anonymized survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.
-
-### Checklist rationale in business language
-
-We deliberately did not add a live weather or other external API. The case already provides seasonality and temperature evidence, so using the supplied data avoids API credentials, outages, changing results, and an unnecessary operational dependency for this prototype.
-
-The data is stored as committed CSV exhibits because that makes the analysis auditable: a reviewer can trace the recommendation back to the supplied case material. The browser receives only the aggregate segment, city, channel, price, and timing values needed to make the decision; it does not need a database or a respondent-level service.
-
-The anonymized survey is a deliberate derived file and is tracked as part of the data room. Names, email addresses, and contact information are removed before the file is used. The price-sensitivity file retains a non-identifying `respondent_id` only so its four Van Westendorp answers stay grouped; it is not contact data and is not bundled into the app. The application itself consumes only safe aggregates. Build artifacts are disposable outputs, not business data, and are regenerated during deployment.
-
-The tool is designed to help a market-entry team make a specific decision. It shows what price and channel plan to launch, who to target, when to enter, how the economics perform, and where the CMO’s premium-positioning preference conflicts with the CFO’s return requirements. Labels, evidence notes, scenarios, and stress tests make those trade-offs understandable to a non-technical decision-maker.
+The application bundles only PII-safe aggregates: no respondent names, emails or respondent IDs are rendered or included in frontend assets. No external APIs or API keys are used. The supplied survey remains a source file in the data room, while the client uses only segment, city and channel aggregates needed for the analysis.

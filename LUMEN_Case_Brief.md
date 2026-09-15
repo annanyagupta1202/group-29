@@ -66,7 +66,7 @@ this section is a map, not a substitute for opening the files.
 | 1 | `market_context.csv` | DE market size by sub-category & by region/city, 2022–27 |
 | 2 | `competitor_prices_by_channel.csv` | 4 competitors × channel × pack format pricing |
 | 3 | `competitor_price_history.csv` | 12 months of competitor price & promo activity |
-| 4 | `customer_survey_anonymized.csv` | ~420 anonymized German respondents: segment, spend, channel, awareness, intent |
+| 4 | `customer_survey.csv` | ~420 German respondents: segment, spend, channel, awareness, intent |
 | 5 | `customer_quotes.csv` | Qualitative verbatims by segment |
 | 6 | `historical_sales_weekly.csv` | 78 weeks of actual sales, NL/DK/SE only |
 | 7 | `marketing_funnel_monthly.csv` | 18 months, reach → engagement → conversion → CAC → LTV, by channel |
